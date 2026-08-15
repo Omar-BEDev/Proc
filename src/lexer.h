@@ -15,5 +15,11 @@
 using namespace std;
 
 string extract_file_content(const char* path);
-Token** lexer(string_view content);
+Token* lexer(string_view content, int* returnContentSize);
+static inline void checkReallocAvailable(Token** tokens, uint* size, uint current_i) {
+    if (current_i >= *size) {
+        *size *= 2;
+        *tokens = (Token *)realloc(*tokens, *size * sizeof(Token));
+    }
+}
 #endif

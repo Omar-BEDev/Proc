@@ -20,11 +20,12 @@ static const char* token_type_name(TokenType type) {
 
 int main() {
     const char* filename = "m.txt";
+    int tokensSize = 0;
     string content = extract_file_content(filename);
-    Token** tokens = lexer(content);
-    for (int i = 0; tokens[i] != nullptr; i++) {
-        Token* token = tokens[i];
-        printf("%d - [%.*s : %s]\n", i + 1, (int)token->val.size(), token->val.data(), token_type_name(token->token_type));
+    Token* tokens = lexer(content, &tokensSize);
+    for (int i = 0; i < tokensSize; i++) {
+        
+        printf("%d - [%.*s : %s]\n", i + 1, (int)tokens[i].val.size(), tokens[i].val.data(), token_type_name(tokens[i].token_type));
     }
     return 0;
 }
