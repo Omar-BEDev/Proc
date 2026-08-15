@@ -22,6 +22,7 @@ Token* lexer(string_view content, int * returnContentSize) {
     uint size = 1;
     uint current_i = 0;
     int numsi = 0;
+    int line = 0;
     char* number = (char *) malloc(11);
     Token* tokens = (Token*) calloc(size , sizeof(Token));
     while (i < content_size) {
@@ -37,7 +38,12 @@ Token* lexer(string_view content, int * returnContentSize) {
         if (numsi > 0) {
             checkReallocAvailable(&tokens, &size, current_i);
             number[numsi] = '\0';
-            tokens[current_i++] = {.val = number,.token_type = NUMBER};
+            tokens[current_i++] = {
+                .val = number,
+                .token_type = NUMBER, 
+                .type = NOT_TYPE,
+                .line = line
+            };
             numsi = 0;
             number = NULL;
             number = (char *) malloc(11);
@@ -50,13 +56,18 @@ Token* lexer(string_view content, int * returnContentSize) {
         ) {
             checkReallocAvailable(&tokens, &size, current_i);
             TokenType token_type = checkIsTokenAvailable(content[i]);
+            Type type = checkSymbolType(token_type);
             tokens[current_i++] = {
                 .val = string_view(&content[i], 1), 
-                .token_type = token_type
+                .token_type = token_type,
+                .type = type
             };
             i++;
         }
         else if (i < content_size && (content[i] == ASSCiSPACE || content[i] == ASSCINEWLINE)) {
+            if (content[i] == ASSCINEWLINE) {
+                line++;
+            }
             i++;
         }
         else {
