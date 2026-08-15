@@ -25,7 +25,7 @@ int main() {
     Token* tokens = lexer(content, &tokensSize);
     for (int i = 0; i < tokensSize; i++) {
         
-        printf("%d - [%.*s : %s]\n", i + 1, (int)tokens[i].val.size(), tokens[i].val.data(), token_type_name(tokens[i].token_type));
+        printf("%d - [%.*s : %s : %d]\n", i + 1, (int)tokens[i].val.size(), tokens[i].val.data(), token_type_name(tokens[i].token_type), tokens[i].line);
     }
     return 0;
 }

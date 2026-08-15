@@ -22,7 +22,7 @@ Token* lexer(string_view content, int * returnContentSize) {
     uint size = 1;
     uint current_i = 0;
     int numsi = 0;
-    int line = 0;
+    int line = 1;
     char* number = (char *) malloc(11);
     Token* tokens = (Token*) calloc(size , sizeof(Token));
     while (i < content_size) {
@@ -60,7 +60,8 @@ Token* lexer(string_view content, int * returnContentSize) {
             tokens[current_i++] = {
                 .val = string_view(&content[i], 1), 
                 .token_type = token_type,
-                .type = type
+                .type = type,
+                .line = line,
             };
             i++;
         }

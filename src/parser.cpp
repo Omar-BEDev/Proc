@@ -8,12 +8,11 @@ typedef enum {
     NOERROR
 } ErrorType ;
 
-ErrorType checkTokens(Token* tokens, int* line, int size) {
+ErrorType checkTokens(Token* tokens, int* line, uint size) {
     uint type_s = 1;
     TokenType* stack = (TokenType* )calloc(type_s, sizeof(TokenType));
-    int top = 0; 
+    uint top = 0; 
     uint i = 0;
-    int line_number = 0;
     while (i < size) {
         if (
             i + 1 < size &&(tokens[i].token_type == NUMBER || tokens[i].type == PUNCTUATION) && 
