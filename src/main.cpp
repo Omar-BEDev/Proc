@@ -1,7 +1,8 @@
 #include <cstdio>
+#include <iostream>
 #include "lexer.h"
 #include "token.h"
-
+#include "parser.h"
 using namespace std;
 
 static const char* token_type_name(TokenType type) {
@@ -26,6 +27,12 @@ int main() {
     for (int i = 0; i < tokensSize; i++) {
         
         printf("%d - [%.*s : %s : %d]\n", i + 1, (int)tokens[i].val.size(), tokens[i].val.data(), token_type_name(tokens[i].token_type), tokens[i].line);
+    }
+    int line = 0;
+    ErrorType err = checkTokens(tokens, &line, tokensSize);
+    if (err == MISSINGTOKEN) {
+        printf("error(line: %d): missing close token ')'\n",line);
+        cerr << "error(line:" <<  line << " ): missing close token ')'"  << endl;
     }
     return 0;
 }
