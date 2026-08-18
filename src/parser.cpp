@@ -118,7 +118,7 @@ TreeNode* Ast(Token* tokens,uint size) {
                     first_Node->val = tokens[i].val;
                 }
 
-                TreeNode *n = parse_one(tokens[i].val, node[i+1].val);
+                TreeNode *n = parse_one(tokens[i].val, tokens[i+1].val);
                 node->left = n;
                 node = n;
             }
