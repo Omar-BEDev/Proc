@@ -132,6 +132,7 @@ TreeNode* Ast(Token* tokens,uint size) {
             }
             
         }
+        i++;
     }
 }
 
