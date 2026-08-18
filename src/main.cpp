@@ -31,8 +31,8 @@ int main() {
     int line = 0;
     ErrorType err = checkTokens(tokens, &line, tokensSize);
     if (err == MISSINGTOKEN) {
-        printf("error(line: %d): missing close token ')'\n",line);
-        cerr << "error(line:" <<  line << " ): missing close token ')'"  << endl;
+        printf("error(line: %d): missing Bracket token')'\n",line);
+        cerr << "error(line:" <<  line << " ): missing Bracket token')'"  << endl;
     }
     return 0;
 }

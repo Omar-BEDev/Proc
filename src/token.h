@@ -30,7 +30,11 @@ typedef struct Token {
     Type type;
     int line;
 } Token;
-
+typedef struct TreeNode {
+    string_view val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+} TreeNode;
 TokenType checkIsTokenAvailable(char symbol);
 Type checkSymbolType(TokenType tokenType);
 #endif

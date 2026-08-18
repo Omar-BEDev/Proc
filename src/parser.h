@@ -7,5 +7,5 @@ typedef enum {
     NOERROR
 } ErrorType ;
 ErrorType checkTokens(Token* tokens, int* line, uint size);
-
+TreeNode* parse_one(string_view val,string_view operation);
 #endif
