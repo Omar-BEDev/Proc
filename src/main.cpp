@@ -19,6 +19,21 @@ static const char* token_type_name(TokenType type) {
     return "UNKNOWN";
 }
 
+static void print_ast(TreeNode* node, const char* prefix = "", bool is_last = true) {
+    if (!node) return;
+    printf("%s%s%.*s\n", prefix, is_last ? "|-- " : "|-- ", (int)node->val.size(), node->val.data());
+    string child_prefix = string(prefix) + "|   ";
+    if (node->left || node->right) {
+        if (node->left && node->right) {
+            print_ast(node->left, child_prefix.c_str(), false);
+            print_ast(node->right, child_prefix.c_str(), true);
+        } else {
+            TreeNode* only = node->left ? node->left : node->right;
+            print_ast(only, child_prefix.c_str(), true);
+        }
+    }
+}
+
 int main() {
     const char* filename = "m.txt";
     int tokensSize = 0;
@@ -33,6 +48,11 @@ int main() {
     if (err == MISSINGTOKEN) {
         printf("error(line: %d): missing Bracket token')'\n",line);
         cerr << "error(line:" <<  line << " ): missing Bracket token')'"  << endl;
+    }
+    TreeNode * ast = Ast(tokens, tokensSize);
+    if (ast) {
+        printf("AST:\n");
+        print_ast(ast);
     }
     return 0;
 }

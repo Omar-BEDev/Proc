@@ -97,7 +97,7 @@ TreeNode* parse_two(Token* tokens, uint *i, uint* size) {
 }
 
 TreeNode* parse_one(Token* tokens, uint *i, uint* size) {
-    TreeNode* left = parse_two(tokens, i);
+    TreeNode* left = parse_two(tokens, i, size);
     (*i)++;
     while (*i < *size && tokens[*i].token_type == ADDITION || tokens[*i].token_type == SUBSTRACTION) {
         TreeNode *opr = new TreeNode{};
