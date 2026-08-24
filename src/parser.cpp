@@ -80,60 +80,41 @@ ErrorType checkTokens(Token* tokens, int* line, uint size) {
     stack = NULL;
     return NOERROR;
 }
-TreeNode* parse_one(string_view val, string_view operation) {
-    TreeNode *n = new TreeNode{};
-    n->val = operation;
-    TreeNode *n2 = new TreeNode{};
-    n2->val = val;
-    n->left = n2;
-    return n;
-}
-static TreeNode* parse_two(string_view val1, string_view val2, string_view operation) {
-   TreeNode *n = new TreeNode{};
-    n->val = operation;
-    TreeNode *n2 = new TreeNode{};
-    n2->val = val1;
-    n->left = n2;
-    TreeNode *n3 = new TreeNode{};
-    n2->val = val2;
-    n->right = n3;
-    return n;
-}
-static TreeNode* parse_bracket(string_view val, string_view bracket) {
 
+
+TreeNode* parse_two(Token* tokens, uint *i, uint* size) {
+    TreeNode* left = parse_bracket(tokens, i, size);
+    (*i)++;
+    if (*i < *size && tokens[*i].token_type == MULTIPLACATION || tokens[*i].token_type == DIVISION) {
+        TreeNode *opr = new TreeNode{};
+        opr->val = tokens[*i].val;
+        (*i)++;
+        TreeNode* right = parse_bracket(tokens, i, size);
+        opr->left = left;
+        opr->right = right;
+        return opr;
+    }
+    return left;
 }
+
+TreeNode* parse_one(Token* tokens, uint *i, uint* size) {
+    TreeNode* left = parse_two(tokens, i);
+    (*i)++;
+    if (*i < *size && tokens[*i].token_type == ADDITION || tokens[*i].token_type == SUBSTRACTION) {
+        TreeNode *opr = new TreeNode{};
+        opr->val = tokens[*i].val;
+        (*i)++;
+        TreeNode* right = parse_two(tokens, i, size);
+        opr->left = left;
+        opr->right = right;
+        return opr;
+    }
+    return left;
+}
+
 
 TreeNode* Ast(Token* tokens,uint size) { 
-    TreeNode *node = new TreeNode{};
-    TreeNode *first_Node = new TreeNode{};
-    int power = 0;
-    int operaton_index = 0;
-    uint i = 0;
-    while(i < size) {
-        if (tokens[i].token_type == NUMBER) {
-            int current_power = searchPower(tokens[i+1].token_type);
-            if (power < current_power && current_power == 1) {
-                operaton_index++;
-                if (operaton_index == 1) {
-                    first_Node->val = tokens[i].val;
-                }
-
-                TreeNode *n = parse_one(tokens[i].val, tokens[i+1].val);
-                node->left = n;
-                node = n;
-            }
-            if (tokens[i].token_type == NUMBER) {
-            int current_power = searchPower(tokens[i+1].token_type);
-            if (power < current_power && current_power == 2) {
-    
-                TreeNode *n = parse_two(tokens[i].val, tokens[i+2].val,tokens[i+1].val);
-                node->right = n;
-                node = n;
-            }
-            
-        }
-        i++;
-    }
-}
-
+   uint i = 0;
+   TreeNode* Ast = parse_one(tokens, &i, &size);
+   return Ast;
 }
