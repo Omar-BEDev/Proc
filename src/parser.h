@@ -12,7 +12,7 @@ TreeNode* parse_two(Token *tokens,uint* i);
 
 inline TreeNode* parse_bracket(Token* tokens, uint *i, uint* size) {
     
-    if (*i < *size && tokens[*i].token_type == OPEN_BRACKETS) {
+    while (*i < *size && tokens[*i].token_type == OPEN_BRACKETS) {
         (*i)++;
         TreeNode* opr_tree = parse_one(tokens, i);
         if (*i < *size && tokens[*i].token_type == CLOSE_BRACKETS) {

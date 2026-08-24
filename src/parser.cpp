@@ -84,8 +84,7 @@ ErrorType checkTokens(Token* tokens, int* line, uint size) {
 
 TreeNode* parse_two(Token* tokens, uint *i, uint* size) {
     TreeNode* left = parse_bracket(tokens, i, size);
-    (*i)++;
-    if (*i < *size && tokens[*i].token_type == MULTIPLACATION || tokens[*i].token_type == DIVISION) {
+    while (*i < *size && tokens[*i].token_type == MULTIPLACATION || tokens[*i].token_type == DIVISION) {
         TreeNode *opr = new TreeNode{};
         opr->val = tokens[*i].val;
         (*i)++;
@@ -100,7 +99,7 @@ TreeNode* parse_two(Token* tokens, uint *i, uint* size) {
 TreeNode* parse_one(Token* tokens, uint *i, uint* size) {
     TreeNode* left = parse_two(tokens, i);
     (*i)++;
-    if (*i < *size && tokens[*i].token_type == ADDITION || tokens[*i].token_type == SUBSTRACTION) {
+    while (*i < *size && tokens[*i].token_type == ADDITION || tokens[*i].token_type == SUBSTRACTION) {
         TreeNode *opr = new TreeNode{};
         opr->val = tokens[*i].val;
         (*i)++;
