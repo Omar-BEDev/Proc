@@ -87,26 +87,27 @@ TreeNode* parse_two(Token* tokens, uint *i, uint* size) {
     while (*i < *size && tokens[*i].token_type == MULTIPLACATION || tokens[*i].token_type == DIVISION) {
         TreeNode *opr = new TreeNode{};
         opr->val = tokens[*i].val;
+        opr->token_type = tokens[*i].token_type;
         (*i)++;
         TreeNode* right = parse_bracket(tokens, i, size);
         opr->left = left;
         opr->right = right;
-        return opr;
+        left = opr;
     }
     return left;
 }
 
 TreeNode* parse_one(Token* tokens, uint *i, uint* size) {
     TreeNode* left = parse_two(tokens, i, size);
-    (*i)++;
     while (*i < *size && tokens[*i].token_type == ADDITION || tokens[*i].token_type == SUBSTRACTION) {
         TreeNode *opr = new TreeNode{};
         opr->val = tokens[*i].val;
+        opr->token_type = tokens[*i].token_type;
         (*i)++;
         TreeNode* right = parse_two(tokens, i, size);
         opr->left = left;
         opr->right = right;
-        return opr;
+        left = opr;
     }
     return left;
 }

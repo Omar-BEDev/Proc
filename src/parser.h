@@ -23,6 +23,7 @@ inline TreeNode* parse_bracket(Token* tokens, uint *i, uint* size) {
     }
     TreeNode* left = new TreeNode{};
     left->val = tokens[*i].val;
+    left->token_type = tokens[*i].token_type;
     (*i)++;
     return left;
 }

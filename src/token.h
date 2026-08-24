@@ -32,6 +32,7 @@ typedef struct Token {
 } Token;
 typedef struct TreeNode {
     string_view val;
+    TokenType token_type;
     struct TreeNode *left;
     struct TreeNode *right;
 } TreeNode;

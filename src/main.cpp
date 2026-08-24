@@ -1,5 +1,8 @@
+#include <charconv>
 #include <cstdio>
 #include <iostream>
+#include <string>
+#include <string_view>
 #include "lexer.h"
 #include "token.h"
 #include "parser.h"
@@ -33,7 +36,42 @@ static void print_ast(TreeNode* node, const char* prefix = "", bool is_last = tr
         }
     }
 }
-
+int calculator(char s, int a, int b) {
+    switch (s) {
+    case '+':
+    return a+b;
+    case '-':
+    return a-b;
+    case '*':
+    return a*b;
+    case '/':
+    return a/b;
+    default:
+    return 0;
+    }
+    return 0;
+}
+int calculate_tree_node_values(TreeNode* ast) {
+    if (ast == nullptr) {
+        return 0;
+    }
+    
+    int a = 0;
+    int b = 0;
+    int result = 0;
+    if (!ast->left || ast->right && ast->token_type == NUMBER) {
+        int n = 0;
+        from_chars(ast->val.data(), ast->val.data() + ast->val.size(), n);
+        return n;
+    }
+    int left_value = calculate_tree_node_values(ast->left);
+    int right_value = calculate_tree_node_values(ast->right);
+        if (ast->token_type != NUMBER) {
+            result = calculator(ast->val[0],  left_value,  right_value);
+        }
+    return result;  
+    
+}
 int main() {
     const char* filename = "m.txt";
     int tokensSize = 0;
@@ -54,5 +92,6 @@ int main() {
         printf("AST:\n");
         print_ast(ast);
     }
+    printf("the result is %d",calculate_tree_node_values(ast));
     return 0;
 }
